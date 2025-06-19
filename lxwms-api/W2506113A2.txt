@@ -1,1 +1,0 @@
-OBS0032506100XX,{"code": "200", "description": "PC2506245932", "skus": ["X00488JFGL-1"]}
