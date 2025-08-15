@@ -1,6 +1,7 @@
 import requests 
 import pandas as pd
 import json
+import argparse
 
 headers = {
     'authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIlN0IlMjJidXNpbmVzc1R5cGUlMjIlM0ElMjJ3bXMlMjIlMkMlMjJsb2dpbkFjY291bnQlMjIlM0ElMjJ6aG91amlhbGlhbmclMjIlMkMlMjJ1c2VyTmFtZUNuJTIyJTNBJTIyJUU1JTkxJUE4JUU1JTk4JTg5JUU0JUJBJUFFJTIyJTJDJTIydXNlck5hbWVFbiUyMiUzQSUyMiUyMiUyQyUyMmN1c3RvbWVyQ29kZSUyMiUzQW51bGwlMkMlMjJ0ZW5hbnRDb2RlJTIyJTNBJTIyMjUxNSUyMiUyQyUyMnRlcm1pbmFsVHlwZSUyMiUzQW51bGwlN0QiLCJpc3MiOiJ4aW5nbGlhbi5zZWN1cml0eSIsImJ1c2luZXNzVHlwZSI6IndtcyIsImV4cCI6MTc1MDc4MzkwMiwiaWF0IjoxNzUwNjk3NTAyLCJqdGkiOiIyNDY2MjgwMS1jNDIyLTRhNGEtYWQwMi03YWFmZmI2ZThiZGIifQ.FbDXtfAZgNBSt1TNelZTGKmNlynVsLZjrjR07hJKpfQ',
@@ -91,7 +92,7 @@ def get_wave_order_number(wave):
         )
     return req.json()['data']['totalCount']
 
-def scan_to_outbound():
+def scan_to_outbound(filename: str):
     res = []
     while True:
         name = input("picker name: ")
@@ -115,10 +116,11 @@ def scan_to_outbound():
     df = pd.DataFrame(res)
 
     # Write to Excel
-    df.to_excel("2025-08-13.xlsx", index=False)
+    df.to_excel(f"{filename}.xlsx", index=False)
     
 
-scan_to_outbound()
-    
-# while True:
-#     pick(input(":"))
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="todays date in yyyy-mm-dd format")
+    parser.add_argument("--date", type=str, help="todays date in yyyy-mm-dd format")
+    args = parser.parse_args()
+    scan_to_outbound(args.date)
